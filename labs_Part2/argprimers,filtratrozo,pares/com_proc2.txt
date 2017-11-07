@@ -1,0 +1,11 @@
+-Haz un programa que escriba los numeros del 0..argv[1] en formato entero en un fichero que llevara de nombre argv[2]. El fichero de salida se debe crear si no existe y si existe el contenido debe ser solo la salida de este programa. Utiliza open para la creacion del fichero.
+	$EscribeNumeros num_max filename
+
+- Haz un programa que se llame "FiltraTrozo". El programa recibe como parametro el nombre de un fichero, cuantros trozos hay que hacer del fichero y que parte hay que leer. Sabemos que el fichero contiene enteros. Lee la parte correspondiente del fichero, cuenta cuantos números pares hay y escribe el resultado (en formato entero) en su salida std. Si el tamaño del fichero no es múltiplo del numero de partes, en caso de estar haciendo la ultima parte leeremos todos los numeros restantes. 
+	$FiltraTrozo filename num_parts part_to_read
+
+-Haz un programa que se llame Pares. El programa se ejecutara de la siguiente forma:
+	$Pares filename
+
+El programa pares crea 4 procesos concurrentes. Cada uno de ellos ejecutará el programa FiltraTrozo procesando una parte del fichero. El padre leera los resultados de los hijos mediante una pipe sin nombre. El resultado se escribira en formato ascii por la salida std mediante un mensaje.
+

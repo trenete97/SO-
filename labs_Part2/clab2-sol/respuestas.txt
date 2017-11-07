@@ -1,0 +1,12 @@
+1. ¿Qué efecto tiene ejecutar el comando ln –s arith.c file.c? ¿Cómo consultarías los i-nodos de los ficheros arith.c y file.c? ¿Es el mismo i-nodo? Razona la respuesta.
+
+Crea un soft link (llamado file.c) al fichero arith.c.
+
+Se puede consultar el inodo ejecutando "stat arith.c" o "ls -i arith.c"
+
+No es el mismo, porque file.c es un soft link que, aunque apunta a arith.c, tiene inodo y bloques propios (el enlace a arith.c se guarda en los bloques de datos).
+
+2. ¿Qué efecto tiene ejecutar el comando lseek(fd,10,SEEK_END)? Razona la respuesta.
+
+Se posiciona el puntero de lectura/escriptura 10 bytes mas alla del final del fichero.
+

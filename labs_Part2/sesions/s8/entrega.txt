@@ -1,0 +1,16 @@
+PREGUNTA 66.
+Contiene:
+--
+Inicio
+Fin
+--
+Es decir, la salida del padre y del hijo, pues ambos comparten el mismo canal de salida.
+
+------
+PREGUNTA 67.
+El padre no acaba porque se está esperando al hijo (waitpid) y el hijo no acaba porque está bloqueado en la llamada read.
+
+------
+PREGUNTA 68.
+Deberíamos crear otro, puesto que sino no podríamos distinguir quién escribe y quién lee en la misma pipe.
+

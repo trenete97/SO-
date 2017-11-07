@@ -1,0 +1,114 @@
+1.
+-Se puede saber usando el comando df y la opción -T para mostrar el tipo. Los directorios donde estan montados son los de la columna de la derecha:
+
+S.ficheros     Tipo     bloques de 1K  Usados Disponibles Uso% Montado en
+udev           devtmpfs       1004716       0     1004716   0% /dev
+tmpfs          tmpfs           204844    3680      201164   2% /run
+/dev/sda1      ext4           8124856 4352940     3336156  57% /
+tmpfs          tmpfs          1024204     288     1023916   1% /dev/shm
+tmpfs          tmpfs             5120       4        5116   1% /run/lock
+tmpfs          tmpfs          1024204       0     1024204   0% /sys/fs/cgroup
+tmpfs          tmpfs           204844      64      204780   1% /run/user/1000
+
+-Se puede saber utilizando el comando df con la opción -i.
+
+S.ficheros     Nodos-i NUsados NLibres NUso% Montado en
+udev            251179     477  250702    1% /dev
+tmpfs           256051     617  255434    1% /run
+/dev/sda1       524288  228597  295691   44% /
+tmpfs           256051       7  256044    1% /dev/shm
+tmpfs           256051       5  256046    1% /run/lock
+tmpfs           256051      16  256035    1% /sys/fs/cgroup
+tmpfs           256051      31  256020    1% /run/user/1000
+
+-Se puede saber utilizando el comando df con la opción -h.
+
+S.ficheros     Tamaño Usados  Disp Uso% Montado en
+udev             982M      0  982M   0% /dev
+tmpfs            201M   3,6M  197M   2% /run
+/dev/sda1        7,8G   4,2G  3,2G  57% /
+tmpfs           1001M   288K 1000M   1% /dev/shm
+tmpfs            5,0M   4,0K  5,0M   1% /run/lock
+tmpfs           1001M      0 1001M   0% /sys/fs/cgroup
+tmpfs            201M    64K  200M   1% /run/user/1000
+
+
+2.
+-El link creado sl_pr es un soft link y hl_pr es un hard link.
+
+#stat pr.txt
+  Fichero: 'pr.txt'
+  Tamaño: 25        	Bloques: 8          Bloque E/S: 4096   fichero regular
+Dispositivo: 801h/2049d	Nodo-i: 393840      Enlaces: 2
+Acceso: (0664/-rw-rw-r--)  Uid: ( 1000/    raul)   Gid: ( 1000/    raul)
+Acceso: 2016-12-06 18:59:57.493556155 +0100
+Modificación: 2016-12-06 18:58:45.222511530 +0100
+      Cambio: 2016-12-06 18:59:36.417828343 +0100
+    Creación: -
+
+pr.txt es un fichero regular, el inodo es 393840 y el número de enlaces es 2.
+
+#stat sl_pr
+  Fichero: 'sl_pr' -> 'pr.txt'
+  Tamaño: 6         	Bloques: 0          Bloque E/S: 4096   enlace simbólico
+Dispositivo: 801h/2049d	Nodo-i: 394376      Enlaces: 1
+Acceso: (0777/lrwxrwxrwx)  Uid: ( 1000/    raul)   Gid: ( 1000/    raul)
+Acceso: 2016-12-06 18:59:53.809603368 +0100
+Modificación: 2016-12-06 18:59:21.030030332 +0100
+      Cambio: 2016-12-06 18:59:21.030030332 +0100
+    Creación: -
+
+sl_pr es un enlace simbólico, el inodo es 394376 y el numero de enlaces es 1.
+
+#stat hl_pr
+  Fichero: 'hl_pr'
+  Tamaño: 25        	Bloques: 8          Bloque E/S: 4096   fichero regular
+Dispositivo: 801h/2049d	Nodo-i: 393840      Enlaces: 2
+Acceso: (0664/-rw-rw-r--)  Uid: ( 1000/    raul)   Gid: ( 1000/    raul)
+Acceso: 2016-12-06 18:59:57.493556155 +0100
+Modificación: 2016-12-06 18:58:45.222511530 +0100
+      Cambio: 2016-12-06 18:59:36.417828343 +0100
+    Creación: -
+
+hl_pr es un fichero regular, el inodo es 393840 y el numero de enlaces es 2.
+
+La información es la misma en hl_pr y pr.txt, ya el hard link apunta directamente al fichero mientras que los enlaces sombolicos apuntan al fichero con ese nombre.
+
+
+-Resultados de ejecutar cat, namei y readlink sobre sl_pr y hl_pr:
+#cat sl_pr
+“esto es una prueba”
+#cat hl_pr
+“esto es una prueba”
+#namei sl_pr
+f: sl_pr
+ l sl_pr -> pr.txt
+   - pr.txt
+#namei hl_pr
+f: hl_pr
+ - hl_pr
+#readlink sl_pr
+pr.txt
+#readlink hl_pr
+
+Hay diferencias en el namei y en el readlink. Para sl_pr, lo que hace primero namei es abrir el fichero y al ver que es un link, se redirige a pr.txt y lo abre. En cambio, para hl_pr al ser un hard link, ya contiene la misma informacion que pr.txt y no hace falta ir a ningún otro archivo.
+Para el readlink, sl_pr sí contiene un link mientars que hl_pr no, ya que solo es una copia de la información de pr.txt.
+
+
+-#rm pr.txt
+#cat sl_pr
+cat: sl_pr: No existe el archivo o el directorio
+#cat hl_pr
+“esto es una prueba”
+#namei sl_pr
+f: sl_pr
+ l sl_pr -> pr.txt
+     pr.txt - No existe el archivo o directorio
+#namei hl_pr
+f: hl_pr
+ - hl_pr
+#readlink sl_pr
+pr.txt
+#readlink hl_pr
+ 
+Para el enlace simbolico, el fichero pr.txt ha desaparecido, pero para el hard link, sigue guardando toda la informacion de este fichero. Esto se debe a que el enlace simbolico apunta al fichero y al no haber fichero no obtiene nada. En cambio, el hard link contiene toda la informacion del fichero pr.txt y aunque se borre seguira teniendo esa informacion.

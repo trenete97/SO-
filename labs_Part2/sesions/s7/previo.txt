@@ -1,0 +1,33 @@
+1. Devuelve \0 despues de pulsar el ^D y se escribe por pantalla "fin de ejecución".
+
+2. He utilizado #./es1 < sortida1.txt
+
+El resultado es el siguiente:
+-rwxrwxr-x 1 raul raul  8768 nov 15 18:16 es1
+-rw-r--r-- 1 raul raul  1062 abr 19  2013 es1.c
+-rwxrwxr-x 1 raul raul 13096 nov 15 18:16 es2
+-rw-r--r-- 1 raul raul  1418 abr 19  2013 es2.c
+-rwxrwxr-x 1 raul raul  8816 nov 15 18:16 es3
+-rw-r--r-- 1 raul raul   880 nov 13  2013 es3.c
+-rwxrwxr-x 1 raul raul  8712 nov 15 18:16 es4
+-rw-r--r-- 1 raul raul  1089 abr 19  2013 es4.c
+-rwxrwxr-x 1 raul raul  8552 nov 15 18:16 es5
+-rw-r--r-- 1 raul raul    22 ene 27  2012 es5.c
+-rwxrwxr-x 1 raul raul  8712 nov 15 18:16 es6
+-rw-r--r-- 1 raul raul    99 ene 27  2012 es6.c
+-rwxrwxr-x 1 raul raul  8664 nov 15 18:16 es7
+-rw-r--r-- 1 raul raul    93 ene 30  2012 es7.c
+-rwxrwxr-x 1 raul raul  8768 nov 15 18:16 es8
+-rw-r--r-- 1 raul raul   552 ene 30  2012 es8.c
+
+#'grep es' selecciona aquellos archivos que contienen en su nombre "es".
+
+3. He utilizado #ps -u | grep bash (muestra PID,usuario y nombre de todos los procesos bash que se estan ejecutando en el sistema.
+
+5. En el primer caso se escriben 4 bytes y en el segundo 5. 
+Cuando se usa la representación interna de la máquina sólo se ve la traducción en hexa de los carácteres ascii del entero. En cambio, si se convierte antes el numero a string, se imprime el mismo entero.
+
+6. 
+a) read_driver_1 y read_driver_2 respectivamente.
+b) Son identificadores de un dispositivo que permiten saber la clase de un dispositivo (major) y la instancia especifica de un dispositivo de esa clase (minor).
+En el primer programa el minor es 0 y el major 249. EN el segundo programa el minor es 0 y el major 250.

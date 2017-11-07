@@ -1,0 +1,14 @@
+1) Terminal 1: #mknod pipe1 p #cat > pipe1[0]
+   Terminal 2: #cat < pipe[1]
+
+2) No es posible ya que tendrian que ser padre e hijo (misma tabla de canales).
+
+3) close(0); 
+   dup(4); 
+   close(4); 
+
+4) En la primera función se declaran las variables que se usaran, dos enteros (socket_fd y ret) y un struct.
+En el struct, de tipo sockaddr_un, definimos la familia del socket y copiamos tambien el path del socket al directorio que que nos han pasado por referencia en forma de string. Se llama a socket y se devuelve el canal en el que se ha abierto este nuevo socket. Si se produce un error (socket_fd < 0), abortamos el proceso. Si no se produce ningun error, hacemos un bind, que especifica una dirección local en la que se podrá referenciar al socket. Si hay error, se aborta el proceso. Finalmente se hace un listen y se pone al socket a la escucha, es decir, que aceptará conexiones entrantes.
+
+La segunda función, retorna el canal asociado al socket_fd. El accept pone la dirección del socket del cliente que solicita una conexión en socketAddr, y pone el tamaño de esta dirección en addrSize.
+

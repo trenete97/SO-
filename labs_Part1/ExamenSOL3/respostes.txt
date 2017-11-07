@@ -1,0 +1,4 @@
+1) sbrk(0)
+2) malloc reserva un bloc més gran que el demanat i la llibreria C administra aquest bloc a mesura que es demana memòria. Si s'executa malloc i encara queda prou espai consecutiu al bloc, la quantitat de memòria dinàmica NO variarà.
+3) Si s'executa malloc i ja no queda prou espai consecutiu al bloc, la quantitat de memòria SI variarà.
+4) 135168 bytes

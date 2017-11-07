@@ -1,0 +1,112 @@
+
+-------------
+Sobre alarm1: recepción de diferentes tipos de signals y envío de eventos
+desde la consola
+----
+1.Ejecuta alarm1 en una consola y observa su comportamiento.
+¿Qué ocurre cuando pasan 5 segundos? 
+
+-Se nos muestra por pantalla: Alarm clock
+ y el proceso muere.
+  
+---
+2.Ejecuta de nuevo alarm1 y antes de que acabe el temporizador envíale
+un signal de tipo SIGKILL .Para ello, en otro terminal ejecuta el comando 
+ps para obtener el pid del proceso y a continuación utiliza el comando kill 
+con la opción “–KILL” para enviar al proceso el signal SIGKILL. ¿El 
+comportamiento es el mismo que si esperas que llegue el SIGALRM?
+¿Recibes un mensaje diferente en el terminal? 
+
+-No. Recibo el mensaje: Killed
+
+---
+3. ¿Qué proceso se encarga de mostrar los mensajes que aparecen en pantalla cuando muere
+el proceso alarm1? ¿Con qué llamada a sistema el shellrecoge el estado de finalización 
+del proceso que ejecuta alarm1 cuando éste termina?
+
+-El shell usa el el waitpid, que muestra el status en el cuál acabó el proceso.
+  
+---
+4. ¿Es necesario el exit que hay en el código de alarm1? ¿Se ejecuta en algún caso?
+
+-Se ejecutaría en el caso que el tratamiento de la señal alarm no fuera terminar el
+ el proceso (como por defecto) o bien si se recibe otro signal antes de que llegara
+ el SIGALRM.
+
+-------------
+Sobre alarm2:
+cualquier signal se puede enviar desde el Shell.
+----
+1.Ejecuta alarm2 en un terminal. Abre otro, averigua el pid del proceso alarm2
+y utiliza el comando kill para enviarle el signal “–ALRM” varias veces. ¿Qué
+comportamiento observas? ¿El control de tiempo ha funcionado como 
+pretendía el código?
+
+-Observo que aumenta 10 segundos de golpe, es decir, no espera a que realmente pasen
+ los 10 segundos, sino que va aumentando conforme va recibiendo señales del tipo alarm.
+
+---
+2.¿Se puede modificar el tratamiento asociado a cualquier signal?
+
+-NO. Tal como dice en el man: The signals SIGKILL and SIGSTOP cannot be caught or ignored.
+
+---
+3.Mira en el man (man alarm) el valor de retorno de la llamada a sistema alarm y piensa
+cómo podríamos arreglar el código para detectar cuándo un SIGALRM nos llega sin estar
+relacionado con el temporizador.
+
+-Mirando el valor de retorno, si es 0 no hay ningun problema, la alarma se ha generado
+ y ha acabado "perfectamente". Si ha sido "cancelada" por otro SIGALRM, retorna el
+ tiempo que faltaba para acabar la alarma "inicial".
+
+-------------
+Sobre alarm3: la tabla de programación de signals se hereda.
+-----
+1.¿Quién recibelos SIGALRM:el padre, el hijo o los dos? ¿Cómo lo has comprobado?
+Modifica la función “funcion_alarma” para que en el mensaje que se escribe aparezca
+también el pid del proceso, de forma que podamos ver fácilmente qué proceso recibe los
+signals. 
+
+-Los dos. Aparece por duplicado el mismo mensaje pero con pid diferente:
+ ALARMA pid=4981: 10 segundos
+ ALARMA pid=4982: 10 segundos
+ ALARMA pid=4981: 20 segundos
+ ALARMA pid=4982: 20 segundos
+ ....
+
+-------------
+Sobre alarm4: los SIGALRM son recibidos únicamente por el proceso que los
+ha generado
+----
+
+1.¿Cuántos SIGALRMS programa cada proceso? ¿Quién recibe cada alarma: El padre, el hijo,
+los dos? ¿Qué le pasa al padre? ¿Cómo lo has comprobado? Modifica el código de forma
+que la primera alarma la programe el padre antes de fork (y el hijo no), y observa cómo el
+hijo se queda esperando en la llamada pause.
+
+-El proceso del padre ninguno. El proceso del hijo, 10. El padre se queda en el primer pause
+ del bucle...y cómo no ha programado ninguna alarm antes, no le llegará ninguna SIGALRM a su
+ proceso. Lo he comprobado haciendo un ps -all para ver el pid de padre e hijo.
+
+--------------
+Sobre ejemplo_waitpid: envío de signals mediante llamada a sistema, gestión
+del estado de finalización de los hijos y desactivación del temporizador.
+----
+1.Analiza el código de este programa y ejecútalo. Observa que dentro del código de
+los procesos hijos se utiliza un temporizador para fijar su tiempo de ejecución a un segundo.
+
+---
+2.Modifica el código para que el proceso padre al salir del waitpid muestre en salida
+estándar un mensaje describiendo la causa de la muerte del hijo (ha acabado con un exit o
+ha muerto porque ha recibido un signal).
+
+----
+3.Completa el programa para limitar el tiempo máximo de espera en el waitpid en cada
+iteración del bucle: si al cabo de 2 segundos ningún hijo ha acabado la ejecución,
+el padre deberá enviarle un SIGKILL a todos sus hijos vivos. En caso de que algún 
+hijo acabe a tiempo, el padre desactivará el temporizador y mostrará un mensaje 
+indicando cuánto tiempo faltaba para que se enviara el SIGALRM.
+Para desactivar el temporizador se puede utilizar la llamada a sistema alarm 
+pasándole como parámetro un 0.
+NOTA: ten en cuenta que para hacer esto es necesario guardar todos los pids 
+de los hijos creados e ir registrando los hijos que ya han muerto.

@@ -1,0 +1,35 @@
+-------
+1 - Consulta el man del proc (man proc) e indica, en el fichero “previo.txt”, en qué fichero 
+del /proc, y en qué campo del fichero, se muestra el número de fallos de página 
+totales del proceso (minor page faults + major page faults en Linux). 
+
+Se muestra en el fichero /proc/[pid]/stat. La columna 10 es el número de minor page faults (fallos que no han requerido
+cargar una página de memoria del disco). La columna 11 es el número de minor page faults de los hijos del proceso.
+En la columna 12 aparece el número de major faults del proceso.
+
+-------
+2.Ejecuta el comando vmstat de manera que la salida se muestre cada segundo. ¿Qué 
+opción has utilizado? ¿En qué columnas se muestra la cantidad de swap-in y swap-out?
+
+vmstat 1
+
+swap-in está en la columna si (9) y swap-pout en la columna so (10).
+
+-------
+3.Utiliza el comando /usr/bin/time para medir el tiempo que tarda en ejecutar 
+Fibonacci si se le pasan los parámetros 10, 20, 30, 40 y 50 y apunta ese tiempo en el 
+fichero previo.txt. 
+
+./fib 10 : 52
+./fib 20 : 6710
+./fib 30 : 832040
+./fib 40 : 102334155
+./fib 50 : el proceso tarda demasiado, parece infinito...
+
+Anota en el fichero previo.txt con qué valor de nice se ejecuta fibonacci desde el script 
+BAJA_PRIO_FIB. Para averiguarlo, consulta en la página del manual el comportamiento 
+de nice
+
+-Valor del nice: 10
+
+4. 

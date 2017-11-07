@@ -1,0 +1,103 @@
+Previo sesión 5 - SO
+----
+1) Utiliza el comando nm sobre el ejecutable y apunta en el fichero “previo.txt” la 
+dirección asignada a cada una de las variables del programa. Busca en el man (y 
+apunta en previo.txt) los tipos de símbolos que nos muestra mm. Por ejemplo, los 
+símbolos etiquetados con una “D” significa que están en la sección de datos (variables 
+globales). ¿Es posible saber la dirección de las variables “i” y “j” con el comando nm? 
+¿Por qué? ¿En qué zona de memoria están reservadas estas variables? Busca 
+también la dirección asignada a la función “suma”.
+
+U atoi@@GLIBC_2.0
+0804a030 B __bss_start
+0804a030 b completed.5742
+0804a028 D __data_start
+0804a028 W data_start
+08048450 t deregister_tm_clones
+080484c0 t __do_global_dtors_aux
+08049f04 t __do_global_dtors_aux_fini_array_entry
+0804a02c D __dso_handle
+08049f0c d _DYNAMIC
+0804a030 D _edata
+0804a038 B _end
+         U exit@@GLIBC_2.0
+08048694 T _fini
+080486a8 R _fp_hw
+080484e0 t frame_dummy
+08049f00 t __frame_dummy_init_array_entry
+080487d8 r __FRAME_END__
+0804a000 d _GLOBAL_OFFSET_TABLE_
+         w __gmon_start__
+0804836c T _init
+08049f04 t __init_array_end
+08049f00 t __init_array_start
+080486ac R _IO_stdin_used
+         w _ITM_deregisterTMCloneTable
+         w _ITM_registerTMCloneTable
+0804a034 B j
+08049f08 d __JCR_END__
+08049f08 d __JCR_LIST__
+         w _Jv_RegisterClasses
+08048690 T __libc_csu_fini
+08048620 T __libc_csu_init
+         U __libc_start_main@@GLIBC_2.0
+0804851e T main
+08048480 t register_tm_clones
+         U sprintf@@GLIBC_2.0
+08048410 T _start
+         U strlen@@GLIBC_2.0
+0804850c T suma
+0804a030 D __TMC_END__
+         U write@@GLIBC_2.0
+08048440 T __x86.get_pc_thunk.bx
+
+-
+No, las variables locales se guardan en el stack (pila) por lo que no se puede saber la dirección exacta de las variables. La dirección asignada a la función suma es: 0804850c.
+
+-------
+3) Utiliza el comando gcc para compilar el fichero mem1_previo.c enlazándolo con 
+librerías estáticas. Indica en el fichero “previo.txt” qué comando has utilizado.
+
+oriol.torrillas@linux-194q:~/Desktop/S5> gcc -o mem1_previo mem1_previo.c -static-libgcc
+
+-------
+4) 
+mem2_previo
+
+08048000-08049000 r-xp 00000000 08:03 263018     /home/oriol.torrillas/Desktop/S5/mem2_previo
+08049000-0804a000 r--p 00000000 08:03 263018     /home/oriol.torrillas/Desktop/S5/mem2_previo
+0804a000-0804b000 rw-p 00001000 08:03 263018     /home/oriol.torrillas/Desktop/S5/mem2_previo
+0804b000-08073000 rw-p 00000000 00:00 0 
+b754f000-b7550000 rw-p 00000000 00:00 0 
+b7550000-b76c4000 r-xp 00000000 08:02 891        /lib/libc-2.17.so
+b76c4000-b76c6000 r--p 00174000 08:02 891        /lib/libc-2.17.so
+b76c6000-b76c7000 rw-p 00176000 08:02 891        /lib/libc-2.17.so
+b76c7000-b76ca000 rw-p 00000000 00:00 0 
+b76e3000-b76e4000 rw-p 00000000 00:00 0 
+b76e4000-b76e5000 r-xp 00000000 00:00 0          [vdso]
+b76e5000-b7705000 r-xp 00000000 08:02 472        /lib/ld-2.17.so
+b7705000-b7706000 r--p 0001f000 08:02 472        /lib/ld-2.17.so
+b7706000-b7707000 rw-p 00020000 08:02 472        /lib/ld-2.17.so
+bf859000-bf87a000 rw-p 00000000 00:00 0          [stack]
+
+mem2_previo_v2
+
+08048000-08049000 r-xp 00000000 08:03 260693     /home/oriol.torrillas/Desktop/S5/mem2_previo_v2
+08049000-0804a000 r--p 00000000 08:03 260693     /home/oriol.torrillas/Desktop/S5/mem2_previo_v2
+0804a000-0804b000 rw-p 00001000 08:03 260693     /home/oriol.torrillas/Desktop/S5/mem2_previo_v2
+b7592000-b7593000 rw-p 00000000 00:00 0 
+b7593000-b7707000 r-xp 00000000 08:02 891        /lib/libc-2.17.so
+b7707000-b7709000 r--p 00174000 08:02 891        /lib/libc-2.17.so
+b7709000-b770a000 rw-p 00176000 08:02 891        /lib/libc-2.17.so
+b770a000-b770d000 rw-p 00000000 00:00 0 
+b7726000-b7727000 rw-p 00000000 00:00 0 
+b7727000-b7728000 r-xp 00000000 00:00 0          [vdso]
+b7728000-b7748000 r-xp 00000000 08:02 472        /lib/ld-2.17.so
+b7748000-b7749000 r--p 0001f000 08:02 472        /lib/ld-2.17.so
+b7749000-b774a000 rw-p 00020000 08:02 472        /lib/ld-2.17.so
+bf81f000-bf840000 rw-p 00000000 00:00 0          [stack]
+
+
+Igual es que el compilado no lo he realizado bien, pero no veo ninguna región de heap.
+
+----

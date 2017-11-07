@@ -1,0 +1,2 @@
+
+Para añadir archivos .h que se encuentran en otras carpetas basta con poner la opción -i seguido de la ruta

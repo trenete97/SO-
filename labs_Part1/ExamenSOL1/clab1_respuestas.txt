@@ -1,0 +1,47 @@
+1- las variables ITERACIONES_MAIN y ITERACIONES_CALCULA estan en la pila porque son variables locales. 
+2- Para ver el rango de direcciones de la pila de un proceso podemos consultar el fichero maps que encontramos en /proc/pid_del_proceso/maps
+, en este caso concreto (por ejemplo):
+31-33> ./calcula 10000 10000 100 &
+[1] 23675
+31-33> cat /proc/23675/maps
+00400000-00401000 r-xp 00000000 fe:01 12206423                           /home2/users/professors/pr_proso/so/2013-2014-Q1/clab1/31-33/calcula
+00600000-00601000 r--p 00000000 fe:01 12206423                           /home2/users/professors/pr_proso/so/2013-2014-Q1/clab1/31-33/calcula
+00601000-00602000 rw-p 00001000 fe:01 12206423                           /home2/users/professors/pr_proso/so/2013-2014-Q1/clab1/31-33/calcula
+7fd3eed92000-7fd3eeee3000 r-xp 00000000 fe:02 507909                     /lib64/libc-2.10.1.so
+7fd3eeee3000-7fd3ef0e3000 ---p 00151000 fe:02 507909                     /lib64/libc-2.10.1.so
+7fd3ef0e3000-7fd3ef0e7000 r--p 00151000 fe:02 507909                     /lib64/libc-2.10.1.so
+7fd3ef0e7000-7fd3ef0e8000 rw-p 00155000 fe:02 507909                     /lib64/libc-2.10.1.so
+7fd3ef0e8000-7fd3ef0ed000 rw-p 00000000 00:00 0
+7fd3ef0ed000-7fd3ef10b000 r-xp 00000000 fe:02 508082                     /lib64/ld-2.10.1.so
+7fd3ef2f0000-7fd3ef2f2000 rw-p 00000000 00:00 0
+7fd3ef308000-7fd3ef30a000 rw-p 00000000 00:00 0
+7fd3ef30a000-7fd3ef30b000 r--p 0001d000 fe:02 508082                     /lib64/ld-2.10.1.so
+7fd3ef30b000-7fd3ef30c000 rw-p 0001e000 fe:02 508082                     /lib64/ld-2.10.1.so
+7fff0fe81000-7fff0fea2000 rw-p 00000000 00:00 0                          [stack]
+7fff0ff37000-7fff0ff38000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+
+El rango de la pila es 7fff0fe81000-7fff0fea2000
+
+ejercicio 4
+
+El comando top permite seleccionar las columnas que se quieren ver y el criterio por el cual se ordenan los procesos. Si seleccionamos (en caso que no este) como columna (opcion f) la memoria virtual (VIRT) y ordenamos por este criterio (opciones F y o para seleccionar), podemos ver, por ejemplo:
+top - 16:21:49 up 79 days,  6:48,  1 user,  load average: 0.56, 0.29, 0.24
+Tasks: 135 total,   3 running, 132 sleeping,   0 stopped,   0 zombie
+Cpu(s): 25.0%us,  0.0%sy,  0.0%ni, 75.0%id,  0.0%wa,  0.0%hi,  0.0%si,  0.0%st
+Mem:   4121964k total,  1454120k used,  2667844k free,   511340k buffers
+Swap:  4200960k total,    33332k used,  4167628k free,   864016k cached
+
+  PID USER      PR  NI  VIRT  RES  SHR S %CPU %MEM    TIME+  COMMAND
+12369 wwwrun    20   0  560m 6064 1496 S    0  0.1   4:24.31 httpd
+12368 wwwrun    20   0  495m 7508 1664 S    0  0.2   4:26.26 httpd
+24478 pr_proso  20   0  385m 4248  372 R  100  0.1   0:35.31 calcula_con_mem
+ 3573 root      20   0  295m 6356 1812 S    0  0.2   0:25.49 nsrexecd
+24480 pr_proso  20   0  194m 1076  372 R  100  0.0   0:08.23 calcula_con_mem
+ 3747 root      20   0  113m  552  440 S    0  0.0   0:01.86 X
+ 2767 root      20   0  107m  668  668 S    0  0.0   0:02.58 console-kit-dae
+ 3862 root      20   0 95496  184  180 S    0  0.0   0:00.02 xdm
+12366 wwwrun    20   0 85684  304  220 S    0  0.0   0:01.00 httpd
+
+
+

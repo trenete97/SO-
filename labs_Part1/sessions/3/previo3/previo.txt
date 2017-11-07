@@ -1,0 +1,148 @@
+1. Ejecuta ejemplo_fork1
+Soy el proceso 7727
+Soy el proceso 7728
+
+Muestra el id de proceso que el sistema operativo le asigna a padre e hijo
+
+---------
+2. Ejecuta el ejemplo_fork2
+
+Antes del fork: Soy el proceso 7918
+PADRE: Soy el proceso 7918
+Los DOS: Soy el proceso 7918
+HIJO: Soy el proceso 7919
+Los DOS: Soy el proceso 7919
+
+Antes del fork, lo que se nos da es el identificador del padre.
+Posteriormente, pasan a ejecutar de forma paralela el switch. En caso de
+que lo ejecute primero el padre (como me ha ocurrido) primero saldrá la id del
+padre 2 veces, la de dentro del switch y la posterior.
+Posteriormente, se imprimira por pantalla el mensaje hijo, con su respectiva id,
+además del mensaje de los 2, con la id del hijo, que es el que, en este caso, ejecuta el getpid().
+
+----------
+3. Ejecuta el ejemplo_fork3
+
+Antes del fork: Soy el proceso 7973
+PADRE: Soy el proceso 7973
+Solo lo ejecuta el padre: Soy el proceso 7973
+HIJO: Soy el proceso 7974
+
+Es lo mismo que en el 2, con la única diferencia que una vez el proceso del hijo ha ejecutado su parte en
+el switch case, matamos el proceso, por lo que lo que ocurra después del switch no podrá ser ejecutado por el proceso del hijo.
+
+-----------
+4. Ejecuta el ejemplo_fork4
+
+Antes del fork: Soy el proceso 8015
+PADRE: Soy el proceso 8015
+Solo lo ejecuta el padre: Soy el proceso 8015
+HIJO: Soy el proceso 8016
+HIJO acaba: Soy el proceso 8016
+
+Primero acaba el proceso del padre, luego el del hijo.
+
+Después de modificar:
+Antes del fork: Soy el proceso 8193
+PADRE: Soy el proceso 8193
+HIJO: Soy el proceso 8194
+HIJO acaba: Soy el proceso 8194
+Solo lo ejecuta el padre: Soy el proceso 8193
+
+---------
+5. Ejecuta el ejemplo_fork5
+
+Antes del fork: Soy el proceso 8201
+PADRE: Soy el proceso 8201
+HIJO: Soy el proceso 8202
+HIJO:La variable_global vale A y la local a
+PADRE:La variable_global vale A y la local a
+Solo lo ejecuta el padre: Soy el proceso 8201
+
+Aparecen en pantalla el mensaje del padre antes del fork, después los dos casos del case (que hacen lo mismo, imprimir por pantalla
+el valor de variable_global y variable_local, ya que aún no les hemos cambiado el valor en ninguno de los casos del switch).
+Posteriormente, matamos el proceso hijo y sólo queda el del padre, que es quién imprime por pantalla la última línea.
+
+Después de la modificación:
+Antes del fork: Soy el proceso 8269
+PADRE: Soy el proceso 8269
+HIJO: Soy el proceso 8270
+HIJO:La variable_global vale B y la local b
+PADRE:La variable_global vale A y la local a
+Solo lo ejecuta el padre: Soy el proceso 8269
+
+------------
+6. Redirecciona por salida ejemplo_fork6
+
+La salida va alternando entre impresiones por pantalla que hacen padre e hijo con diferentes letras del abecedario, además de dar
+su id al principio y al final del programa.
+NO encontraremos NUNCA la misma salida. Primero de todo, cambiará la id del proceso que creemos. Además, en función de la carga del
+CPU y otros valores que controla el SO y no nosotros, pues decidirá ejecutar antes el proceso del hijo o del padre, por lo que puede
+que se alternen en la impresión de datos por pantalla de forma totalmente arbitraria y aleatoria.
+
+
+------------
+7.Ejecuta el ejemplo_fork7
+
+No compila porque en el ámbito de la función Escribe_variable() no está declarada la variable_local.
+Hay dos soluciones posibles. O bien se modifica la función Escribe_variable(char variable_local) para que esté declarada en la función
+o bien, la variable_local se declara como una variable_global. Como esto último no tiene mucho sentido, ya que lo que queríamos era una 
+variable de ámbito local, la mejor solución es la de modificar la función.
+Aquí tenemos el resultado de la ejecución de ejemplo_fork7 :
+
+Antes del fork: Soy el proceso 8613
+PADRE: Soy el proceso 8613
+Funcion:La variable_global vale A y la local a
+Solo lo ejecuta el padre: Soy el proceso 8613
+HIJO: Soy el proceso 8614
+Funcion:La variable_global vale A y la local a
+
+-----------
+8. Ejecuta el ejemplo_exec1
+
+Soy el proceso: 8615
+total 7756
+-rwxrwxr-x 1 oriol oriol    7257  3 oct 18:19 ejemplo_exec1
+-rw-r--r-- 1 oriol oriol     296  2 feb  2012 ejemplo_exec1.c
+-rwxrwxr-x 1 oriol oriol    7297  3 oct 18:19 ejemplo_exec2
+-rw-r--r-- 1 oriol oriol     302  2 feb  2012 ejemplo_exec2.c
+-rwxrwxr-x 1 oriol oriol    7183  3 oct 18:19 ejemplo_fork1
+-rw-r--r-- 1 oriol oriol     297  2 feb  2012 ejemplo_fork1.c
+-rwxrwxr-x 1 oriol oriol    7567  3 oct 18:19 ejemplo_fork2
+-rw-r--r-- 1 oriol oriol     900  2 feb  2012 ejemplo_fork2.c
+-rwxrwxr-x 1 oriol oriol    7705  3 oct 18:19 ejemplo_fork3
+-rw-r--r-- 1 oriol oriol     972  2 feb  2012 ejemplo_fork3.c
+-rwxrwxr-x 1 oriol oriol    7990  3 oct 18:19 ejemplo_fork4
+-rw-r--r-- 1 oriol oriol    1185  3 oct 18:01 ejemplo_fork4.c
+-rw-rw-r-- 1 oriol oriol    3008  3 oct 17:59 ejemplo_fork4.o
+-rwxrwxr-x 1 oriol oriol    8182  3 oct 18:19 ejemplo_fork5
+-rw-r--r-- 1 oriol oriol    1466  3 oct 18:04 ejemplo_fork5.c
+-rwxrwxr-x 1 oriol oriol    8185  3 oct 18:19 ejemplo_fork6
+-rw-r--r-- 1 oriol oriol    1724  2 feb  2012 ejemplo_fork6.c
+-rwxrwxr-x 1 oriol oriol    8003  3 oct 18:19 ejemplo_fork7
+-rw-r--r-- 1 oriol oriol    1361  3 oct 18:19 ejemplo_fork7.c
+-rw-rw-r-- 1 oriol oriol    3152  3 oct 18:19 ejemplo_fork7.o
+-rwxr-xr-x 1 oriol oriol    7659 23 ago 10:16 listaParametros
+-rw-r--r-- 1 oriol oriol     651  3 oct 18:13 Makefile.ejemplos
+-rw-r--r-- 1 oriol oriol     585  3 oct 18:13 Makefile.ejemplos~
+-rw-rw-r-- 1 oriol oriol    3153  3 oct 18:12 previo.txt
+-rw-rw-r-- 1 oriol oriol       2  3 oct 18:12 previo.txt~
+-rw-r--r-- 1 oriol oriol     615  2 feb  2012 README_S3
+-rw-rw-r-- 1 oriol oriol 3881907  3 oct 18:07 salida1.txt
+-rw-rw-r-- 1 oriol oriol 3908717  3 oct 18:07 salida.txt
+
+Veo esto por pantalla. Primero veo el id de un proceso, posteriormente veo lo mismo que vería
+ejecutando el comando: ls -l
+Sólo se ve una vez el id del proceso, ya que al hacer execlp, el proceso muta a un ls.
+
+-------------
+9. Ejecuta el ejemplo_exec2
+
+Soy el proceso: 8668
+Soy el proceso 8668
+Soy el proceso 8669
+
+Primero aparece el id del proceso que se ha creado al ejecutarse exec2. Posteriormente, este proceso muta
+y ejecuta ejemplo_fork1, que lo que hace es dar la id del padre (al hacer exec es la misma que en el programa
+ejemplo_exec2 ya que el proceso "sólo" ha mutado) y posteriormente, nos muestra por pantalla el id del hijo creado.
+En total, pues, se ejecutan 2 procesos.

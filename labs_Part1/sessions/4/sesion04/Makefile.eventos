@@ -1,0 +1,37 @@
+all: bucleinf eventos2 ejemplo_waitpid ejemplo_waitpid2 alarms signalPerdido ejemplo_causaFin ejemplo_sigchld eventos
+
+ejemplo_causaFin: ejemplo_causaFin.c
+	gcc -o ejemplo_causaFin ejemplo_causaFin.c
+	
+eventos: eventos.c
+	gcc -o eventos eventos.c
+
+bucleinf: bucleinf.c
+	gcc -o bucleinf bucleinf.c
+eventos2: eventos2.c
+	gcc -o eventos2 eventos2.c
+	
+ejemplo_sigchld: ejemplo_sigchld.c
+	gcc -o ejemplo_sigchld ejemplo_sigchld.c
+ejemplo_waitpid:ejemplo_waitpid.c
+	gcc -o ejemplo_waitpid ejemplo_waitpid.c
+
+ejemplo_waitpid2:ejemplo_waitpid2.c
+	gcc -o ejemplo_waitpid2 ejemplo_waitpid2.c
+
+alarms:alarm1 alarm2 alarm3 alarm4
+
+alarm1:ejemplo_alarm1.c
+	gcc -o alarm1 ejemplo_alarm1.c 
+alarm2:ejemplo_alarm2.c
+	gcc -o alarm2 ejemplo_alarm2.c 
+alarm3:ejemplo_alarm3.c
+	gcc -o alarm3 ejemplo_alarm3.c 
+alarm4:ejemplo_alarm4.c
+	gcc -o alarm4 ejemplo_alarm4.c 
+signalPerdido:signalPerdido.c
+	gcc -o signalPerdido signalPerdido.c 
+
+clean:
+	rm -rf alarm1 alarm2 alarm3 alarm4 ejemplo_waitpid ejemplo_waitpid2 signalPerdido
+

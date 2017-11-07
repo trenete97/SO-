@@ -1,0 +1,42 @@
+
+
+int a=1
+int b=3
+llamo funcion f(a,&b)
+
+int *b;
+llamo funcion f(a,b)
+
+
+
+f(int a, int *b)
+------------------
+
+char buffer
+char buffer[]
+char buffer[56] <-- tipo de declaracion que funciona con write porque necesita que el espacio este definido.
+
+todas estas definiciones se trata la varaible como un puntero aunque no hayamos
+puesto * en realidad lo son
+entonces si queremos pasarlos a una funcion lo pasamos como si fuera un puntero
+f(buffer)
+--------
+
+char a=argv[0][0] 
+argv es un puntero de punteros es decir si yo introduzco 123 678
+
+para acceder a 123 primero entro en el puntero[0] y luego si quiero acceder
+a un caracter en concreto del primer parametro introduzco el segundo corchete [0][0]
+esto me estaria accediendo al 1. 
+
+------------------
+
+no hay forma de saber el tamaño de un vector con ninguna funcion de ayuda asi que
+por eso los tamaños se suelen definir como varaibles globales. 
+
+Hay que tener una variable para el buffer de los prints ya que si la tenia inicializado
+la borra. SI introduzco un mensaje más largo que el tamaño del buffer que cree corta el
+mensaje. 
+
+
+
